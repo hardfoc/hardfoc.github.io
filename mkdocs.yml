@@ -1,0 +1,8 @@
+site_name: hardfoc Documentation
+nav:
+  - Home: index.md
+  - About: about.md
+  - Getting Started: getting-started/README.md
+  - API: api/README.md
+  - Porting: porting/README.md
+  - Hardware: hardware/README.md

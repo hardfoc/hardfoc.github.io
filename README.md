@@ -4,6 +4,10 @@ This repository hosts the documentation site for the hardfoc project. It uses
 [MkDocs](https://www.mkdocs.org/) to build the static site and GitHub Pages to
 publish it.
 
+The site uses the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/)
+theme, which provides a sidebar and top navigation tabs configured in
+`mkdocs.yml`.
+
 ## Folder structure
 
 ```

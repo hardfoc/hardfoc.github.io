@@ -6,3 +6,8 @@ nav:
   - API: api/README.md
   - Porting: porting/README.md
   - Hardware: hardware/README.md
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections

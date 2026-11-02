@@ -24,7 +24,7 @@ concurrency:
 jobs:
   site:
     # The branch of hardfoc/hf-general-ci-tools#42 (the versioning input) until it is released; then @v1.
-    uses: hardfoc/hf-general-ci-tools/.github/workflows/ru-mkdocs-publish.yml@docs/unversioned-sites
+    uses: hardfoc/hf-general-ci-tools/.github/workflows/ru-mkdocs-publish.yml@v1
     permissions:
       contents: write  # the publish job pushes gh-pages; pull requests never publish
     with:

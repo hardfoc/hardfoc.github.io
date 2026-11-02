@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="737" viewBox="0 0 1200 737" role="img" aria-labelledby="hardfoc-layers-title hardfoc-layers-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="hardfoc-layers-title">Four layers, each a set of repositories</title>
+<desc id="hardfoc-layers-desc">Layer diagram, top to bottom: products (hardfoc-vortex-v1, hardfoc-flux-v1) build on board HALs (hf-hal-vortex-v1, hf-hal-flux-v1), which build on hf-core (hf-core-drivers and hf-core-utils), which gathers the hardware-agnostic chip drivers (hf-*-driver) and the peripheral interface wrap.</desc>
+<defs><marker id="fk-arrow-rail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6C7889"/></marker></defs>
+<rect x="0.5" y="0.5" width="1199" height="736" rx="16" fill="#0E131A" stroke="#283241"/>
+<text x="32" y="46.8" font-size="16" font-weight="700" letter-spacing="1.2" fill="#C7CBFF">ARCHITECTURE</text>
+<text x="32" y="85.6" font-size="32" font-weight="700" fill="#E8EDF3">Four layers, each a set of repositories</text>
+<text x="32" y="115.4" font-size="18" fill="#9AA6B5">Each layer is a Git submodule of the one above it, pinned to a commit or tag.</text>
+<rect x="32" y="131.4" width="1136" height="1" fill="#252F3C"/>
+<path d="M310 242.4 L310 282.4" fill="none" stroke="#6C7889" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M890 242.4 L890 282.4" fill="none" stroke="#6C7889" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M310 379.4 L310 419.4" fill="none" stroke="#6C7889" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M890 379.4 L890 419.4" fill="none" stroke="#6C7889" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M213.3 516.4 L213.3 556.4" fill="none" stroke="#6C7889" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M600 516.4 L600 556.4" fill="none" stroke="#6C7889" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M986.7 516.4 L986.7 556.4" fill="none" stroke="#6C7889" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<rect x="32" y="149.4" width="556" height="89" rx="12" fill="#0F2A28" stroke="#2DD4BF" stroke-width="1.4"/>
+<rect x="32" y="157.4" width="4" height="73" rx="2" fill="#2DD4BF"/>
+<rect x="612" y="149.4" width="556" height="89" rx="12" fill="#0F2A28" stroke="#2DD4BF" stroke-width="1.4"/>
+<rect x="612" y="157.4" width="4" height="73" rx="2" fill="#2DD4BF"/>
+<rect x="32" y="286.4" width="556" height="89" rx="12" fill="#151C26" stroke="#3A4657" stroke-width="1"/>
+<rect x="32" y="294.4" width="4" height="73" rx="2" fill="#8C93FF"/>
+<rect x="612" y="286.4" width="556" height="89" rx="12" fill="#151C26" stroke="#3A4657" stroke-width="1"/>
+<rect x="612" y="294.4" width="4" height="73" rx="2" fill="#8C93FF"/>
+<rect x="32" y="423.4" width="1136" height="89" rx="12" fill="#1C1F3D" stroke="#8C93FF" stroke-width="1.4"/>
+<rect x="32" y="431.4" width="4" height="73" rx="2" fill="#8C93FF"/>
+<rect x="32" y="560.4" width="362.7" height="89" rx="12" fill="#151C26" stroke="#3A4657" stroke-width="1"/>
+<rect x="32" y="568.4" width="4" height="73" rx="2" fill="#94A3B8"/>
+<rect x="418.7" y="560.4" width="362.7" height="89" rx="12" fill="#151C26" stroke="#3A4657" stroke-width="1"/>
+<rect x="418.7" y="568.4" width="4" height="73" rx="2" fill="#94A3B8"/>
+<rect x="805.3" y="560.4" width="362.7" height="114" rx="12" fill="#151C26" stroke="#3A4657" stroke-width="1"/>
+<rect x="805.3" y="568.4" width="4" height="98" rx="2" fill="#94A3B8"/>
+<text x="56" y="184.4" font-size="20" font-weight="700" fill="#A7F3E6">hardfoc-vortex-v1</text>
+<text x="56" y="215" font-size="17" fill="#D2DAE4">Vortex V1 motor controller firmware</text>
+<text x="636" y="184.4" font-size="20" font-weight="700" fill="#A7F3E6">hardfoc-flux-v1</text>
+<text x="636" y="215" font-size="17" fill="#D2DAE4">Flux V1 valve controller firmware</text>
+<text x="56" y="321.4" font-size="20" font-weight="700" fill="#E8EDF3">hf-hal-vortex-v1</text>
+<text x="56" y="352" font-size="17" fill="#D2DAE4">ESP32-C6, TMC9660, AS5047U</text>
+<text x="636" y="321.4" font-size="20" font-weight="700" fill="#E8EDF3">hf-hal-flux-v1</text>
+<text x="636" y="352" font-size="17" fill="#D2DAE4">ESP32-S3, MAX22200, TLE92466ED</text>
+<text x="56" y="458.4" font-size="20" font-weight="700" fill="#C7CBFF">hf-core</text>
+<text x="56" y="489" font-size="17" fill="#D2DAE4">hf-core-drivers + hf-core-utils: device handlers, RTOS, CANopen</text>
+<text x="56" y="595.4" font-size="20" font-weight="700" fill="#E8EDF3">Chip drivers</text>
+<text x="56" y="626" font-size="17" fill="#D2DAE4">hf-*-driver, no platform code</text>
+<text x="442.7" y="595.4" font-size="20" font-weight="700" fill="#E8EDF3">Interface wrap</text>
+<text x="442.7" y="626" font-size="17" fill="#D2DAE4">hf-internal-interface-wrap, hf-pincfg</text>
+<text x="829.3" y="595.4" font-size="20" font-weight="700" fill="#E8EDF3">Utilities</text>
+<text x="829.3" y="626" font-size="17" fill="#D2DAE4">hf-utils-general, hf-utils-rtos-wrap,</text>
+<text x="829.3" y="650.7" font-size="17" fill="#D2DAE4">hf-utils-canopen</text>
+<rect x="32" y="686.8" width="14" height="14" rx="4" fill="#0F2A28" stroke="#2DD4BF" stroke-width="1.4"/>
+<text x="54" y="701.4" font-size="16" fill="#9AA6B5">application firmware</text>
+<rect x="241.6" y="686.8" width="14" height="14" rx="4" fill="#1C1F3D" stroke="#8C93FF" stroke-width="1.4"/>
+<text x="263.6" y="701.4" font-size="16" fill="#9AA6B5">board and platform</text>
+<rect x="441.2" y="686.8" width="14" height="14" rx="4" fill="#1B232E" stroke="#94A3B8" stroke-width="1.4"/>
+<text x="463.2" y="701.4" font-size="16" fill="#9AA6B5">portable libraries</text>
+</svg>

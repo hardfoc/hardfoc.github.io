@@ -1,13 +1,24 @@
-site_name: hardfoc Documentation
-nav:
-  - Home: index.md
-  - About: about.md
-  - Getting Started: getting-started/README.md
-  - API: api/README.md
-  - Porting: porting/README.md
-  - Hardware: hardware/README.md
+# The HardFOC portal: the organisation's home page at https://hardfoc.github.io/, built with the shared theme from
+# hardfoc/hf-general-ci-tools. Unversioned: one current site, published from main at the root of gh-pages.
+#
+#   pip install "git+https://github.com/hardfoc/hf-general-ci-tools@v1#subdirectory=packages/hardfoc-mkdocs-theme"
+#   python3 tools/portal/catalogue.py      the repository catalogue, from the GitHub API (build/portal/catalogue.md)
+#   mkdocs serve                           http://127.0.0.1:8000
+#   mkdocs build --strict                  what CI runs
+#   hardfoc-docs figures                   rebuild the layer figure after editing docs/diagrams/figures/
+site_name: HardFOC
+site_description: >-
+  HardFOC: open firmware for ESP32 motor and valve controller boards, with hardware-agnostic C++ chip drivers, a
+  shared core, board HALs and application firmware. Every repository, its documentation and how to start.
+repo_url: https://github.com/hardfoc/hardfoc.github.io
+
 theme:
-  name: material
-  features:
-    - navigation.tabs
-    - navigation.sections
+  name: hardfoc
+
+plugins:
+  - hardfoc
+  - search
+  - awesome-nav
+
+extra_javascript:
+  - assets/catalogue.js

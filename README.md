@@ -1,37 +1,60 @@
 # hardfoc.github.io
 
-This repository hosts the documentation site for the hardfoc project. It uses
-[MkDocs](https://www.mkdocs.org/) to build the static site and GitHub Pages to
-publish it.
+The HardFOC portal: what HardFOC is, how its repositories fit together, every public repository with its
+documentation, and where to start with each board.
 
-The site uses the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/)
-theme, which provides a sidebar and top navigation tabs configured in
-`mkdocs.yml`.
+[![Portal](https://github.com/hardfoc/hardfoc.github.io/actions/workflows/docs.yml/badge.svg?branch=main)](https://hardfoc.github.io/)
+[![License](https://img.shields.io/github/license/hardfoc/hardfoc.github.io)](LICENSE)
 
-## Folder structure
+**Site: <https://hardfoc.github.io/>**
 
+<!-- figure: hardfoc-layers -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/diagrams/hardfoc-layers.dark.svg">
+  <img src="docs/diagrams/hardfoc-layers.svg"
+    alt="Layer diagram, top to bottom: products (hardfoc-vortex-v1, hardfoc-flux-v1) build on board HALs (hf-
+    hal-vortex-v1, hf-hal-flux-v1), which build on hf-core (hf-core-drivers and hf-core-utils), which
+    gathers the hardware-agnostic chip drivers (hf-*-driver) and the peripheral interface wrap.">
+</picture>
+<!-- /figure -->
+
+## What it does
+
+- Introduces HardFOC and its two boards, Vortex V1 and Flux V1.
+- Shows the four layers (chip drivers, core, board HALs, products) and how they are pinned together.
+- Lists every public repository as a card with its description, topics, documentation and latest release,
+  generated from the GitHub API and [`org/org-metadata.json`](https://github.com/hardfoc/.github/blob/main/org/org-metadata.json)
+  at every publish, and filterable by text or topic.
+- Gives a getting-started path per board, and for a chip driver on any MCU.
+- Links the contribution rules and the private vulnerability report.
+
+## Build locally
+
+```bash
+pip install "git+https://github.com/hardfoc/hf-general-ci-tools@v1#subdirectory=packages/hardfoc-mkdocs-theme"
+GH_TOKEN=$(gh auth token) python3 tools/portal/catalogue.py   # writes build/portal/catalogue.md
+mkdocs serve                                                  # http://127.0.0.1:8000
 ```
-.
-├── docs/                 # Markdown sources
-│   ├── getting-started/
-│   ├── api/
-│   ├── porting/
-│   ├── hardware/
-│   ├── index.md          # Home page
-│   └── about.md          # About page
-├── mkdocs.yml            # MkDocs configuration
-└── .github/workflows/    # CI workflow
+
+The site is unversioned: `.github/workflows/docs.yml` calls `ru-mkdocs-publish.yml` from
+[hf-general-ci-tools](https://hardfoc.github.io/hf-general-ci-tools/latest/) with `versioning: false`, and a push
+to `main` (or the daily run) publishes the built site as the whole `gh-pages` branch.
+
+## Documentation
+
+| Page | What it covers |
+| --- | --- |
+| [Get started](https://hardfoc.github.io/get-started/) | A path per board, and for a chip driver on your MCU |
+| [Repositories](https://hardfoc.github.io/repositories/) | Every public repository, searchable |
+| [Architecture](https://hardfoc.github.io/architecture/) | The layers and how they are pinned |
+| [Contribute](https://hardfoc.github.io/contribute/) | Issues, pull requests, vulnerability reports |
+
+## Tests
+
+```bash
+python3 -m unittest discover -s tests && mkdocs build --strict
 ```
 
-Pushes to `main` trigger the workflow in `.github/workflows/build-and-deploy.yml`
-which builds the site and updates the `gh-pages` branch.
+## License
 
-### How the workflow works
-
-1. **Checkout** – pulls the repo so the runner has the docs and config.
-2. **Setup Python** – installs a recent Python release for MkDocs.
-3. **Install MkDocs** – installs `mkdocs-material` to render the pages.
-4. **Build** – `mkdocs build --strict` generates the static site in `./site`.
-5. **Publish** – `peaceiris/actions-gh-pages` pushes that folder to the
-   `gh-pages` branch and writes the `CNAME` file so GitHub Pages serves
-   `https://docs.hardfoc.dev`.
+See [LICENSE](LICENSE).

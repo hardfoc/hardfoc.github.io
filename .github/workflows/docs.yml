@@ -1,0 +1,36 @@
+---
+# The portal, https://hardfoc.github.io/: an unversioned site on the shared HardFOC theme. Pull requests build,
+# check (strict build, offline link check, Lighthouse, screenshots) and never publish; a push to main publishes
+# the built site as the whole gh-pages branch. The repository catalogue is generated from the GitHub API at build
+# time (tools/portal/catalogue.py), so every publish shows the current repositories and releases.
+name: 📚 Portal
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '17 5 * * *'  # daily: new repositories, releases and Pages sites appear without a commit
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: portal-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  site:
+    # The branch of hardfoc/hf-general-ci-tools#42 (the versioning input) until it is released; then @v1.
+    uses: hardfoc/hf-general-ci-tools/.github/workflows/ru-mkdocs-publish.yml@docs/unversioned-sites
+    permissions:
+      contents: write  # the publish job pushes gh-pages; pull requests never publish
+    with:
+      versioning: false
+      check_commands: |
+        python3 -m unittest discover -s tests -v
+        python3 tools/portal/catalogue.py
+        hardfoc-docs check
+      deploy: true

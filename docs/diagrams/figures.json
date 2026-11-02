@@ -1,0 +1,13 @@
+{
+  "hardfoc-layers": {
+    "title": "Four layers, each a set of repositories",
+    "alt": "Layer diagram, top to bottom: products (hardfoc-vortex-v1, hardfoc-flux-v1) build on board HALs (hf-hal-vortex-v1, hf-hal-flux-v1), which build on hf-core (hf-core-drivers and hf-core-utils), which gathers the hardware-agnostic chip drivers (hf-*-driver) and the peripheral interface wrap.",
+    "description": "From bottom to top, each layer builds on the one below it as a Git submodule pinned to a commit or tag. Chip drivers are hardware-agnostic C++ libraries with no platform code; each one needs only a small bus adapter. hf-core gathers them with the peripheral interface wrap, the pin configuration and the utility libraries (RTOS wrappers, general helpers, CANopen). A board HAL builds one object per board from hf-core, with one manager per board function. A product is the application firmware for one board, on top of its HAL.",
+    "profile": "overview",
+    "width": 1200,
+    "source": "docs/diagrams/figures/hardfoc-layers.py",
+    "sources": [
+      "mkdocs.yml"
+    ]
+  }
+}

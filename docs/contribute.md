@@ -12,6 +12,7 @@ for the application. If you cannot tell, open it in the product and say what you
 | Step | Where |
 | --- | --- |
 | Read the rules for branches, commits, pull requests and the CI gate | [CONTRIBUTING.md](https://github.com/hardfoc/.github/blob/main/CONTRIBUTING.md) |
+| Follow the engineering standard for code, layering, naming, releases and AI agents | [HardFOC engineering standard](https://github.com/hardfoc/.github/blob/main/standards/README.md) |
 | Follow the code of conduct | [CODE_OF_CONDUCT.md](https://github.com/hardfoc/.github/blob/main/CODE_OF_CONDUCT.md) |
 | Write documentation to the shared standard | [Documentation style guide](https://hardfoc.github.io/hf-general-ci-tools/latest/DOCS-STYLE-GUIDE/) |
 | Add CI to a repository | [CI quickstart](https://hardfoc.github.io/hf-general-ci-tools/latest/quickstart/) |

@@ -854,7 +854,7 @@ into portable chip drivers, a shared core, board HALs and one application per bo
 <details class="hf-figure-desc">
 <summary>Figure description and sources</summary>
 <p>From bottom to top, each layer builds on the one below it as a Git submodule pinned to a commit or tag. Chip drivers are hardware-agnostic C++ libraries with no platform code; each one needs only a small bus adapter. hf-core gathers them with the peripheral interface wrap, the pin configuration and the utility libraries (RTOS wrappers, general helpers, CANopen). A board HAL builds one object per board from hf-core, with one manager per board function. A product is the application firmware for one board, on top of its HAL.</p>
-<p>Drawn from: <a href="https://github.com/hardfoc/hardfoc.github.io/blob/9bd0506a39486522b84bf08fde26683c9871ec37/mkdocs.yml"><code>mkdocs.yml</code></a>; figure module <a href="https://github.com/hardfoc/hardfoc.github.io/blob/9bd0506a39486522b84bf08fde26683c9871ec37/docs/diagrams/figures/hardfoc-layers.py"><code>docs/diagrams/figures/hardfoc-layers.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/hardfoc/hardfoc.github.io/blob/cb089f8196885392b14d8ea6c9a0cc8846535dd6/mkdocs.yml"><code>mkdocs.yml</code></a>; figure module <a href="https://github.com/hardfoc/hardfoc.github.io/blob/cb089f8196885392b14d8ea6c9a0cc8846535dd6/docs/diagrams/figures/hardfoc-layers.py"><code>docs/diagrams/figures/hardfoc-layers.py</code></a>.</p>
 </details>
 <p>Each box is one or more repositories; each arrow is a Git submodule pinned to a commit or tag. The
 <a href="architecture/">architecture page</a> shows the repositories in each layer.</p>

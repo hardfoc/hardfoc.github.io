@@ -713,6 +713,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#the-stack-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The stack contract
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#submodules-not-packages" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -817,6 +828,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#the-stack-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The stack contract
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#submodules-not-packages" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -873,7 +895,7 @@
 <details class="hf-figure-desc">
 <summary>Figure description and sources</summary>
 <p>From bottom to top, each layer builds on the one below it as a Git submodule pinned to a commit or tag. Chip drivers are hardware-agnostic C++ libraries with no platform code; each one needs only a small bus adapter. hf-core gathers them with the peripheral interface wrap, the pin configuration and the utility libraries (RTOS wrappers, general helpers, CANopen). A board HAL builds one object per board from hf-core, with one manager per board function. A product is the application firmware for one board, on top of its HAL.</p>
-<p>Drawn from: <a href="https://github.com/hardfoc/hardfoc.github.io/blob/9bd0506a39486522b84bf08fde26683c9871ec37/mkdocs.yml"><code>mkdocs.yml</code></a>; figure module <a href="https://github.com/hardfoc/hardfoc.github.io/blob/9bd0506a39486522b84bf08fde26683c9871ec37/docs/diagrams/figures/hardfoc-layers.py"><code>docs/diagrams/figures/hardfoc-layers.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/hardfoc/hardfoc.github.io/blob/cb089f8196885392b14d8ea6c9a0cc8846535dd6/mkdocs.yml"><code>mkdocs.yml</code></a>; figure module <a href="https://github.com/hardfoc/hardfoc.github.io/blob/cb089f8196885392b14d8ea6c9a0cc8846535dd6/docs/diagrams/figures/hardfoc-layers.py"><code>docs/diagrams/figures/hardfoc-layers.py</code></a>.</p>
 </details>
 <h2 id="layers">Layers<a class="headerlink" href="#layers" title="Permanent link">&para;</a></h2>
 <table>
@@ -882,7 +904,7 @@
 <th>Layer</th>
 <th>Repositories</th>
 <th>Depends on</th>
-<th>Platform code</th>
+<th>Contains</th>
 </tr>
 </thead>
 <tbody>
@@ -890,41 +912,74 @@
 <td>Products</td>
 <td><code>hardfoc-vortex-v1</code>, <code>hardfoc-flux-v1</code></td>
 <td>One board HAL</td>
-<td>ESP-IDF application, tasks, CANopen (Vortex)</td>
+<td>The application: tasks, protocols (CANopen on Vortex), faults; ESP-IDF only in its start-up code</td>
 </tr>
 <tr>
 <td>Board HALs</td>
 <td><code>hf-hal-vortex-v1</code>, <code>hf-hal-flux-v1</code></td>
 <td><code>hf-core</code></td>
-<td>One object per board, one manager per board function</td>
+<td>One facade per board, one manager per board function, and the platform bind: the only code that names the MCU</td>
 </tr>
 <tr>
 <td>Core</td>
 <td><code>hf-core</code>, gathering <code>hf-core-drivers</code> and <code>hf-core-utils</code></td>
 <td>Drivers, interface wrap, utilities</td>
-<td>Device handlers, RTOS wrappers, CANopen helpers</td>
+<td>One handler per chip (locking, start-up, error mapping), the logger, CANopen integration</td>
 </tr>
 <tr>
 <td>Interface wrap</td>
 <td><code>hf-internal-interface-wrap</code>, <code>hf-pincfg</code></td>
-<td>ESP-IDF</td>
-<td>Peripheral base classes (GPIO, ADC, I2C, SPI, UART, CAN, PWM) and their ESP-IDF implementations; per-board pin maps</td>
+<td>The MCU vendor SDK, only inside each family's implementation</td>
+<td>Platform-free peripheral base classes (GPIO, ADC, I2C, SPI, UART, CAN, PWM, NVS, timers, temperature, logging) with implementations for ESP32 (ESP-IDF), STM32 (STM32 HAL) and the host; header-only per-board pin maps</td>
 </tr>
 <tr>
 <td>Utilities</td>
-<td><code>hf-utils-general</code>, <code>hf-utils-rtos-wrap</code>, <code>hf-utils-canopen</code></td>
-<td>None, or FreeRTOS</td>
-<td>Header-only helpers, FreeRTOS wrappers, CANopen frame builders</td>
+<td><code>hf-utils-general</code>, <code>hf-utils-canopen</code>, <code>hf-utils-rtos-wrap</code></td>
+<td>None; rtos-wrap uses the selected RTOS</td>
+<td>General helpers and CANopen frame builders, platform-free, in headers and sources; RTOS wrappers with FreeRTOS, CMSIS-RTOS2, ThreadX and no-RTOS backends</td>
 </tr>
 <tr>
 <td>Chip drivers</td>
 <td><code>hf-*-driver</code></td>
 <td>Nothing</td>
-<td>None: each driver is a template over a small communication interface</td>
+<td>Platform-free C++20 templates over a small communication interface you implement; MCU-bound drivers such as <code>hf-ws2812-rmt-driver</code> say so</td>
 </tr>
 </tbody>
 </table>
 <p>The <a href="../repositories/">repository catalogue</a> lists every repository in each layer, with its documentation.</p>
+<h2 id="the-stack-contract">The stack contract<a class="headerlink" href="#the-stack-contract" title="Permanent link">&para;</a></h2>
+<p>What each layer promises, what it may include, and the rules for errors, threads, time and naming are in the
+<a href="https://github.com/hardfoc/.github/blob/main/standards/README.md">HardFOC engineering standard</a>:</p>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Page</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The layers and their allowed includes</td>
+<td><a href="https://github.com/hardfoc/.github/blob/main/standards/layers.md">Layers</a></td>
+</tr>
+<tr>
+<td>One error model across the stack</td>
+<td><a href="https://github.com/hardfoc/.github/blob/main/standards/errors.md">Errors</a></td>
+</tr>
+<tr>
+<td>Locks, clocks, delays and the 1 kHz tick</td>
+<td><a href="https://github.com/hardfoc/.github/blob/main/standards/threading-and-timing.md">Threading and timing</a></td>
+</tr>
+<tr>
+<td>Contracts per layer</td>
+<td><a href="https://github.com/hardfoc/.github/blob/main/standards/driver.md">Driver</a>, <a href="https://github.com/hardfoc/.github/blob/main/standards/library.md">library</a>, <a href="https://github.com/hardfoc/.github/blob/main/standards/handler.md">handler</a>, <a href="https://github.com/hardfoc/.github/blob/main/standards/hal.md">board HAL</a>, <a href="https://github.com/hardfoc/.github/blob/main/standards/product.md">product</a></td>
+</tr>
+<tr>
+<td>Why it is this way</td>
+<td><a href="https://github.com/hardfoc/.github/blob/main/standards/adr/README.md">Architecture decision records</a></td>
+</tr>
+</tbody>
+</table>
 <h2 id="submodules-not-packages">Submodules, not packages<a class="headerlink" href="#submodules-not-packages" title="Permanent link">&para;</a></h2>
 <p>Each arrow in the figure is a Git submodule pinned to a commit or tag:</p>
 <pre class="mermaid"><code>flowchart LR

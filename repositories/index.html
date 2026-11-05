@@ -108,7 +108,8 @@
   <script>
 (function () {
   if (typeof mermaid != "undefined" && !(mermaid instanceof Element)) return;
-  var SRC = "https://unpkg.com/mermaid@11/dist/mermaid.min.js", config = {}, real, loading, waiting = [];
+  var SRC = "https://unpkg.com/mermaid@11/dist/mermaid.min.js", config = {}, real, loading;
+  var waiting = [], io = null, ahead = false, ENGAGE = ["scroll", "keydown", "pointerdown", "touchstart"];
   var stub = {
     initialize: function (c) { config = c || {}; if (real) real.initialize(config); },
     render: function (id, text) {
@@ -132,17 +133,38 @@
       document.head.appendChild(s);
     }));
   }
+  // One observer for the diagrams still waiting: on the screen only until the reader engages, then a screen ahead.
+  function watch() {
+    if (io) io.disconnect();
+    io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) release(function (w) { return w.el === e.target; });
+      });
+    }, { rootMargin: ahead ? "100% 0px" : "0px" });
+    waiting.forEach(function (w) { io.observe(w.el); });
+  }
+  function release(which) {
+    waiting = waiting.filter(function (w) {
+      if (!which(w)) return true;
+      io.unobserve(w.el);
+      w.go();
+      return false;
+    });
+  }
   function near(el) {
     if (real || !el || !("IntersectionObserver" in window)) return Promise.resolve();
     return new Promise(function (resolve) {
-      var io = new IntersectionObserver(function (entries) {
-        if (entries.some(function (e) { return e.isIntersecting; })) { io.disconnect(); resolve(); }
-      }, { rootMargin: "100% 0px" });
-      io.observe(el);
-      waiting.push(function () { io.disconnect(); resolve(); });
+      waiting.push({ el: el, go: resolve });
+      if (io) io.observe(el); else watch();
     });
   }
-  window.addEventListener("beforeprint", function () { waiting.splice(0).forEach(function (go) { go(); }); });
+  function engaged() {
+    ENGAGE.forEach(function (t) { window.removeEventListener(t, engaged, true); });
+    ahead = true;
+    if (io) watch();
+  }
+  ENGAGE.forEach(function (t) { window.addEventListener(t, engaged, { capture: true, passive: true }); });
+  window.addEventListener("beforeprint", function () { if (io) release(function () { return true; }); });
   window.mermaid = stub;
 })();
 </script>
@@ -2164,7 +2186,7 @@ topic.</p>
 <h3 id="repo-hf-general-ci-tools"><a href="https://github.com/hardfoc/hf-general-ci-tools">hf-general-ci-tools</a><a class="headerlink" href="#repo-hf-general-ci-tools" title="Permanent link">&para;</a></h3>
 <p>HardFOC general CI tools: reusable GitHub Actions workflows (C++ lint and static analysis, Markdown/YAML lint, docs publish, link check, release) for all HardFOC repos.</p>
 <p class="hf-repo__topics"><button type="button" class="hf-chipbtn" data-topic="ci">ci</button><button type="button" class="hf-chipbtn" data-topic="github-actions">github-actions</button><button type="button" class="hf-chipbtn" data-topic="ci-tools">ci-tools</button><button type="button" class="hf-chipbtn" data-topic="doxygen">doxygen</button><button type="button" class="hf-chipbtn" data-topic="cpp">cpp</button></p>
-<p class="hf-repo__links"><a href="https://github.com/hardfoc/hf-general-ci-tools">Repository</a> · <a href="https://hardfoc.github.io/hf-general-ci-tools/">Documentation</a> · <a href="https://github.com/hardfoc/hf-general-ci-tools/releases/tag/v1.2.10">Release v1.2.10</a></p>
+<p class="hf-repo__links"><a href="https://github.com/hardfoc/hf-general-ci-tools">Repository</a> · <a href="https://hardfoc.github.io/hf-general-ci-tools/">Documentation</a> · <a href="https://github.com/hardfoc/hf-general-ci-tools/releases/tag/v1.2.11">Release v1.2.11</a></p>
 </div>
 </div>
 </section>
